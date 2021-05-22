@@ -23,7 +23,7 @@ def cadastro():
   valida_cpf(usuario1.cpf)
   usuario1.senha = input("Insira sua senha ")
   usuario1.email = input("Insira seu email ")
-  usuario1.limite_credito = input("Insira o limite de crédito da sua conta")
+  usuario1.limite_credito = input("Insira o limite de crédito da sua conta ")
   if usuario1 not in usuarios:
     usuarios.append(usuario1)
   else:
@@ -36,28 +36,58 @@ def consulta_cliente(cpf):
 
 #Essa é a função usada acima para validar o cpf      
 
+
+#Essas duas listas servem para calcular os dois ultimos dígitos junto das duas funções que compõe a "valida_cpf".
+
+cpfx_lista_int = []
+cpfx_lista_string = 0
+
 ultimo_digitos = []   # <- Essa lista é usada apenas para armazenar os dois ultimos dígitos da função "valida_cpf"     
-def valida_cpf(cpfx): 
+def valida_cpf1(parametro): 
   operacao = 0
-  n = 2
-  cpfx_lista_string = cpfx.split() #irei usar a função split para colocar os números do cpf em uma lista e depois valida-lo.
-  cpfx_lista_int = []
+  n = 10
+  j = 1
+  cpfx_lista_string = parametro
   for i in cpfx_lista_string:
     cpfx_lista_int.append(int(i))
-  for x in range(3):
-    for i in cpfx_lista_int:
-      operacao += i * n
-      n += 1
-      if operacao%11 < 2:
-        cpfx_lista_int.append(0)
-        ultimo_digitos.append(0)
-      else:
-        cpfx_lista_int.append(11-operacao%11)
-        ultimo_digitos.append(11-operacao%11)
-    if ultimo_digitos[0] == cpfx[-2] and ultimo_digitos[1] == cpfx[-1]:
-      print("O cpf inserido é valido")
-    else:
-      print("O cpf inserido é inválido")
+  cpfx_lista_int.pop()
+  cpfx_lista_int.pop()
+  for i in cpfx_lista_int:
+    operacao += i * n
+    n = n - j #estou começando do 10 porque a validação exige que eu multiplique os algarismo do cpf da direita para a esquerda começando no 2, eu estou fazendo o caminho inverso começando da esquerda para a direita
+    j += 1
+  if operacao%11 < 2:
+    cpfx_lista_int.append(0)
+    ultimo_digitos.append(0)
+  else:
+    cpfx_lista_int.append(11-operacao%11)
+    ultimo_digitos.append(11-operacao%11)
+
+
+def valida_cpf2():
+  operacao = 0
+  n = 11
+  j = 1
+  for i in cpfx_lista_int:
+    operacao += i * n
+    n = n - j #estou começando do 11 porque a validação exige que eu multiplique os algarismo do cpf da direita para a esquerda começando no 2, eu estou fazendo o caminho inverso começando da esquerda para a direita
+    j += 1
+  if operacao%11 < 2:
+    cpfx_lista_int.append(0)
+    ultimo_digitos.append(0)
+  else:
+    cpfx_lista_int.append(11-operacao%11)
+    ultimo_digitos.append(11-operacao%11)
+
+def valida_cpf(parametro):
+  valida_cpf1(parametro)
+  valida_cpf2()
+  if ultimo_digitos[0] == cpfx_lista_int[-2] and ultimo_digitos[1] == cpfx_lista_int[-1]:
+    print("O cpf inserido é valido")
+  else:
+    print("O cpf inserido é inválido")
+    cpfx_lista_int.clear()
+
 
 #2 - Compras
 #Aqui está a tabela de preços dos produtos disponíveis

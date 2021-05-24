@@ -154,14 +154,15 @@ def ver_carrinho():
         n += 1
       while True: 
         item = input("Insira o produto que quer remover pelo seu índice\nDigite 'n' quando quiser parar de remover os produtos\n")
-        quantidade = int(input("Insira quantos produtos deseja remover\nDigite '0' para cancelar\n"))
         if item == "n" or item == "N":
           break
-        elif quantidade == 0:
+        quantidade = int(input("Insira quantos produtos deseja remover\nDigite '0' para cancelar\n"))
+        if quantidade == 0:
           break
         for l in range(quantidade):
-          print(f"Você removeu {carrinho_compras.pop(int(item))}'s'")
+          carrinho_compras.pop(int(item))
           total_carrinho_compras.pop(int(item))
+        print(f"Você removeu {quantidade} {lista_produtos[int(item)]}'s'")
     elif ver_carrinho == "n" or "N":
       print("Ação cancelada")
     else:
@@ -171,7 +172,7 @@ def ver_carrinho():
 # Defini logo no cadastro um limite fixo no cartão de crédito de 1000.
 def pagar_conta():
   resultado_compra = usuario1.limite_credito - sum(total_carrinho_compras)
-  print(f"O total do seu carrinho é de {sum(total_carrinho_compras)}\nSeu limite de crédito atual é de {usuario1.limite_credito}\nO resultado da sua possível compra é de {resultado_compra}")
+  print(f"O total do seu carrinho é de {sum(total_carrinho_compras)}\nSeu limite de crédito atual é de {usuario1.limite_credito}\nCom sua possível compra seu saldo ficará com o valor {resultado_compra}")
   comprar = input("Digite 's' para comprar e 'n' para cancelar a compra ")
   if comprar == "n" or comprar == "N":
     print("Compra cancelada!")
@@ -241,7 +242,7 @@ def menu():
   opcao = "-1"
   cadastro()
   while True:
-    opcao = input("Seja bem vindo! Esse é o menu principal, escolha dentre as seguinte opções:\n\n1- Cadastro\n2- Consultar cliente\n3- Comprar\n4- Carrinho de compras\n5- Pagar conta \n6- Validar CPF\n0- Sair\n")
+    opcao = input("Seja bem vindo! Esse é o menu principal, escolha dentre as seguinte opções:\n\n1- Cadastro\n2- Consultar cliente\n3- Comprar\n4- Carrinho de compras\n5- Pagar conta \n0- Sair\n")
     if opcao == "1":
       print("Opção selecionada: Cadastro")
       cadastro()
@@ -258,10 +259,6 @@ def menu():
     elif opcao == "5":
       print("Opção selecionada: Pagar conta")
       pagar_conta()
-    elif opcao == "6":
-      print("Opção selecionada: Validar CPF")
-      parametro_valida_cpf= input("Insira o CPF\n")
-      valida_cpf(parametro_valida_cpf)
     elif opcao == "0":
       print("Opção selecionada: Sair")
       break
